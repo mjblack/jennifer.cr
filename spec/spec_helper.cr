@@ -18,7 +18,15 @@ end
 
 require "spec"
 require "factory"
-require "./support/*"
+
+# Explicit require order to ensure PgEnumConverter is loaded before models
+require "./support/config"
+require "./support/file_system"
+require "./support/matchers"
+require "./support/sql_helpers"
+require "./support/views"
+require "./support/models"
+require "./support/factories"
 
 require "../scripts/migrations/20170119011451314_create_contacts"
 require "../scripts/migrations/20180909200027509_create_notes"

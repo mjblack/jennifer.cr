@@ -1,4 +1,4 @@
-abstract class BaseView < Jennifer::View::Materialized
+abstract class BaseView < ::Jennifer::View::Materialized
   BlankString = {
     type: String,
     null: true,
@@ -14,12 +14,12 @@ class FemaleContact < BaseView
   }, false)
 end
 
-class MaleContact < Jennifer::View::Base
+class MaleContact < ::Jennifer::View::Base
   {% if env("DB") == "postgres" || env("DB") == nil %}
     mapping({
       id:         Primary64,
       name:       String,
-      gender:     {type: String, converter: Jennifer::Model::PgEnumConverter},
+      gender:     {type: String, converter: ::Jennifer::Model::PgEnumConverter},
       age:        Int32,
       created_at: Time?,
     }, false)
@@ -42,14 +42,14 @@ end
 # synthetic views
 # ==================
 
-class FakeFemaleContact < Jennifer::View::Base
+class FakeFemaleContact < ::Jennifer::View::Base
   view_name "female_contacts"
 
   {% if env("DB") == "postgres" || env("DB") == nil %}
     mapping({
       id:         Primary64,
       name:       String,
-      gender:     {type: String, converter: Jennifer::Model::PgEnumConverter},
+      gender:     {type: String, converter: ::Jennifer::Model::PgEnumConverter},
       age:        Int32,
       created_at: Time?,
     }, false)
@@ -64,7 +64,7 @@ class FakeFemaleContact < Jennifer::View::Base
   {% end %}
 end
 
-class FakeContactView < Jennifer::View::Base
+class FakeContactView < ::Jennifer::View::Base
   view_name "male_contacs"
 
   mapping({
@@ -72,7 +72,7 @@ class FakeContactView < Jennifer::View::Base
   }, false)
 end
 
-class StrictBrokenMaleContact < Jennifer::View::Base
+class StrictBrokenMaleContact < ::Jennifer::View::Base
   view_name "male_contacts"
 
   mapping({
@@ -81,7 +81,7 @@ class StrictBrokenMaleContact < Jennifer::View::Base
   })
 end
 
-class StrictMaleContactWithExtraField < Jennifer::View::Base
+class StrictMaleContactWithExtraField < ::Jennifer::View::Base
   view_name "male_contacts"
   mapping({
     id:            Primary32,
@@ -89,7 +89,7 @@ class StrictMaleContactWithExtraField < Jennifer::View::Base
   })
 end
 
-class MaleContactWithDescription < Jennifer::View::Base
+class MaleContactWithDescription < ::Jennifer::View::Base
   view_name "male_contacts"
   mapping({
     id:          Primary64,
@@ -97,7 +97,7 @@ class MaleContactWithDescription < Jennifer::View::Base
   }, false)
 end
 
-class PrintPublication < Jennifer::View::Base
+class PrintPublication < ::Jennifer::View::Base
   {% if env("DB") == "postgres" || env("DB") == nil %}
     mapping(
       id: Primary64,
@@ -106,7 +106,7 @@ class PrintPublication < Jennifer::View::Base
       publisher: String,
       pages: Int32?,
       url: String?,
-      type: {type: String, converter: Jennifer::Model::PgEnumConverter}
+      type: {type: String, converter: ::Jennifer::Model::PgEnumConverter}
     )
   {% else %}
     mapping(

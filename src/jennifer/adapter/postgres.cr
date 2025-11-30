@@ -286,9 +286,9 @@ module Jennifer
   end
 end
 
-require "./postgres/model/*"
 require "./postgres/criteria"
 require "./postgres/numeric"
+require "./postgres/model/numeric_to_float64_converter"
 require "./postgres/migration/table_builder/base"
 require "./postgres/migration/table_builder/*"
 

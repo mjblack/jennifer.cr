@@ -1,4 +1,4 @@
-class Address < Jennifer::Model::Base
+class Address < ::Jennifer::Model::Base
   with_timestamps
 
   mapping(

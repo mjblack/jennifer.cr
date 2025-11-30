@@ -5,13 +5,13 @@ require "./models/application_record"
 require "./models/contact"
 require "./models/address"
 
-class JohnyQuery < Jennifer::QueryBuilder::QueryObject
+class JohnyQuery < ::Jennifer::QueryBuilder::QueryObject
   def call
     relation.where { _name == "Johny" }
   end
 end
 
-class WithOwnArguments < Jennifer::QueryBuilder::QueryObject
+class WithOwnArguments < ::Jennifer::QueryBuilder::QueryObject
   private getter gender : String
 
   def initialize(relation, @gender)
@@ -23,7 +23,7 @@ class WithOwnArguments < Jennifer::QueryBuilder::QueryObject
   end
 end
 
-class EnnValidator < Jennifer::Validations::Validator
+class EnnValidator < ::Jennifer::Validations::Validator
   def validate(record, **opts)
     if record.enn!.size < 4 && record.enn![0].downcase == 'a'
       record.errors.add(:enn, "Invalid enn")
@@ -82,7 +82,7 @@ class User < ApplicationRecord
   end
 end
 
-class Passport < Jennifer::Model::Base
+class Passport < ::Jennifer::Model::Base
   mapping(
     enn: {type: String, primary: true},
     contact_id: Int64?
@@ -162,7 +162,7 @@ class TwitterProfile < Profile
   )
 end
 
-class Country < Jennifer::Model::Base
+class Country < ::Jennifer::Model::Base
   mapping(
     id: Primary64,
     name: String?
@@ -239,7 +239,7 @@ class Note < ApplicationRecord
   belongs_to :notable, Union(User | Contact), {where { _name.like("%on") }}, polymorphic: true
 end
 
-class OneFieldModel < Jennifer::Model::Base
+class OneFieldModel < ::Jennifer::Model::Base
   mapping(
     id: Primary32
   )
@@ -301,7 +301,7 @@ class AllTypeModel < ApplicationRecord
 end
 
 {% if env("PAIR") == "1" %}
-  abstract class PairApplicationRecord < Jennifer::Model::Base
+  abstract class PairApplicationRecord < ::Jennifer::Model::Base
     def self.adapter
       PAIR_ADAPTER
     end
@@ -319,7 +319,7 @@ end
   end
 {% end %}
 
-class Author < Jennifer::Model::Base
+class Author < ::Jennifer::Model::Base
   mapping({
     id:        Primary64,
     name1:     {type: String, column: :first_name},
@@ -328,14 +328,14 @@ class Author < Jennifer::Model::Base
   })
 end
 
-class Publication < Jennifer::Model::Base
+class Publication < ::Jennifer::Model::Base
   {% if env("DB") == "postgres" || env("DB") == nil %}
     mapping(
       id: Primary64,
       name: {type: String, column: :title},
       version: Int32,
       publisher: String,
-      type: {type: String, converter: Jennifer::Model::PgEnumConverter}
+      type: {type: String, converter: ::Jennifer::Model::PgEnumConverter}
     )
   {% else %}
     mapping(
@@ -428,7 +428,7 @@ class CountryWithValidationCallbacks < ApplicationRecord
   end
 end
 
-class JohnPassport < Jennifer::Model::Base
+class JohnPassport < ::Jennifer::Model::Base
   table_name "passports"
 
   mapping(
@@ -439,7 +439,7 @@ class JohnPassport < Jennifer::Model::Base
   belongs_to :contact, Contact, {where { _name == "John" }}
 end
 
-class OneFieldModelWithExtraArgument < Jennifer::Model::Base
+class OneFieldModelWithExtraArgument < ::Jennifer::Model::Base
   table_name "one_field_models"
 
   mapping(
@@ -448,7 +448,7 @@ class OneFieldModelWithExtraArgument < Jennifer::Model::Base
   )
 end
 
-class ContactWithNotAllFields < Jennifer::Model::Base
+class ContactWithNotAllFields < ::Jennifer::Model::Base
   table_name "contacts"
 
   mapping(
@@ -457,7 +457,7 @@ class ContactWithNotAllFields < Jennifer::Model::Base
   )
 end
 
-class ContactWithNotStrictMapping < Jennifer::Model::Base
+class ContactWithNotStrictMapping < ::Jennifer::Model::Base
   table_name "contacts"
 
   mapping({
@@ -466,7 +466,7 @@ class ContactWithNotStrictMapping < Jennifer::Model::Base
   }, false)
 end
 
-class ContactWithDependencies < Jennifer::Model::Base
+class ContactWithDependencies < ::Jennifer::Model::Base
   table_name "contacts"
 
   {% if env("DB") == "postgres" || env("DB") == nil %}
@@ -475,7 +475,7 @@ class ContactWithDependencies < Jennifer::Model::Base
       name:        String?,
       description: String?,
       age:         {type: Int32, default: 10},
-      gender:      {type: String?, default: "male", converter: Jennifer::Model::PgEnumConverter},
+      gender:      {type: String?, default: "male", converter: ::Jennifer::Model::PgEnumConverter},
     }, false)
   {% else %}
     mapping({
@@ -498,7 +498,7 @@ class ContactWithDependencies < Jennifer::Model::Base
   validates_length :description, minimum: 2, allow_blank: true
 end
 
-class ContactWithCustomField < Jennifer::Model::Base
+class ContactWithCustomField < ::Jennifer::Model::Base
   table_name "contacts"
   mapping({
     id:   Primary64,
@@ -506,7 +506,7 @@ class ContactWithCustomField < Jennifer::Model::Base
   }, false)
 end
 
-class ContactWithInValidation < Jennifer::Model::Base
+class ContactWithInValidation < ::Jennifer::Model::Base
   table_name "contacts"
   mapping({
     id:   Primary32,
@@ -516,7 +516,7 @@ class ContactWithInValidation < Jennifer::Model::Base
   validates_length :name, in: 2..10
 end
 
-class ContactWithNillableName < Jennifer::Model::Base
+class ContactWithNillableName < ::Jennifer::Model::Base
   table_name "contacts"
   mapping({
     id:   Primary64,
@@ -524,7 +524,7 @@ class ContactWithNillableName < Jennifer::Model::Base
   }, false)
 end
 
-class AbstractContactModel < Jennifer::Model::Base
+class AbstractContactModel < ::Jennifer::Model::Base
   table_name "contacts"
   mapping({
     id:   Primary64,
@@ -534,7 +534,7 @@ class AbstractContactModel < Jennifer::Model::Base
 end
 
 {% if env("DB") == "postgres" || env("DB") == nil %}
-  class ContactWithFloatMapping < Jennifer::Model::Base
+  class ContactWithFloatMapping < ::Jennifer::Model::Base
     table_name "contacts"
 
     mapping({
@@ -544,7 +544,7 @@ end
   end
 {% end %}
 
-class CountryWithDefault < Jennifer::Model::Base
+class CountryWithDefault < ::Jennifer::Model::Base
   mapping(
     id: Primary64,
     virtual: {type: Bool, default: true, virtual: true},
@@ -572,7 +572,7 @@ class NoteWithCallback < ApplicationRecord
   end
 end
 
-class FacebookProfileWithDestroyNotable < Jennifer::Model::Base
+class FacebookProfileWithDestroyNotable < ::Jennifer::Model::Base
   module Mapping
     macro included
       mapping({
@@ -604,7 +604,7 @@ class FacebookProfileWithDestroyNotable < Jennifer::Model::Base
   end
 end
 
-class ProfileWithOneNote < Jennifer::Model::Base
+class ProfileWithOneNote < ::Jennifer::Model::Base
   include FacebookProfileWithDestroyNotable::Mapping
 
   table_name "profiles"
@@ -612,7 +612,7 @@ class ProfileWithOneNote < Jennifer::Model::Base
   has_one :note, NoteWithCallback, inverse_of: :notable, polymorphic: true, dependent: :nullify
 end
 
-class AddressWithNilableBool < Jennifer::Model::Base
+class AddressWithNilableBool < ::Jennifer::Model::Base
   with_timestamps
 
   mapping({
@@ -621,7 +621,7 @@ class AddressWithNilableBool < Jennifer::Model::Base
   }, false)
 end
 
-class NoteWithManualId < Jennifer::Model::Base
+class NoteWithManualId < ::Jennifer::Model::Base
   table_name "notes"
   with_timestamps
 
@@ -649,7 +649,7 @@ class PolymorphicNote < ApplicationRecord
   def self.table_prefix; end
 end
 
-class PolymorphicNoteWithConverter < Jennifer::Model::Base
+class PolymorphicNoteWithConverter < ::Jennifer::Model::Base
   table_name "notes"
 
   mapping(

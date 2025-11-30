@@ -1,4 +1,4 @@
-FROM crystallang/crystal:1.8
+FROM crystallang/crystal:1.18.2
 
 RUN apt-get update -qq \
   && apt-get install -y \
@@ -10,7 +10,7 @@ RUN apt-get update -qq \
 
 WORKDIR /app
 
-COPY shard.yml shard.lock shard.override.yml /app
+COPY shard.yml shard.lock shard.override.yml /app/
 
 RUN shards
 
