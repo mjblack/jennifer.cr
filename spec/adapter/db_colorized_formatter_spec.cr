@@ -11,9 +11,8 @@ describe Jennifer::Adapter::DBColorizedFormatter do
       entry = Log::Entry.new("db", :info, "ignored message", Log::Metadata.build(metadata), nil)
       io = IO::Memory.new
       described_class.format(entry, io)
-      ansi_code = Colorize.enabled? ? "39" : "0"
       io.to_s
-        .should match(/^\e\[38;2;17;120;100mdb\e\[#{ansi_code}m: #{Regex.escape(metadata[:time].to_s)} ms \e\[36m#{Regex.escape(metadata[:query])}\e\[39m \| \e\[33m#{Regex.escape(metadata[:args])}\e\[39m$/)
+        .should match(/^\e\[38;2;17;120;100mdb\e\[[03]?9m: #{Regex.escape(metadata[:time].to_s)} ms \e\[36m#{Regex.escape(metadata[:query])}\e\[39m \| \e\[33m#{Regex.escape(metadata[:args])}\e\[39m$/)
     end
   end
 end
