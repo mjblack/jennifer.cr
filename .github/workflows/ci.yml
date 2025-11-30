@@ -23,9 +23,9 @@ jobs:
 
     steps:
       - name: Install Crystal
-        uses: oprypin/install-crystal@v1
+        uses: crystal-lang/install-crystal@v1
         with:
-          crystal: 1.18.2
+          crystal: latest
 
       - name: Donwload sources
         uses: actions/checkout@v2
@@ -135,7 +135,7 @@ jobs:
         run: export ${{ matrix.other }}
 
       - name: Install Crystal
-        uses: oprypin/install-crystal@v1
+        uses: crystal-lang/install-crystal@v1
         with:
           crystal: ${{matrix.crystal_version}}
 
