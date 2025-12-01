@@ -16,7 +16,7 @@ module Jennifer
 
           path = "#{prefix}.#{name}"
           return I18n.translate(path) if I18n.exists?(path)
-          Wordsmith::Inflector.humanize(name)
+          Wordsmith::Inflector.humanize(name.to_s)
         end
 
         # Returns localized model name.

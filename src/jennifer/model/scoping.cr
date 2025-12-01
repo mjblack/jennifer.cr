@@ -15,14 +15,14 @@ module Jennifer
       macro scope(name, &block)
         {% underscored_arg_list = block.args.map(&.stringify).map { |e| "__" + e }.join(", ").id %}
         # :nodoc:
-        class Jennifer::QueryBuilder::ModelQuery(T)
+        class ::Jennifer::QueryBuilder::ModelQuery(T)
           def {{name.id}}({{ block.args.splat }})
             # NOTE: this is workaround for #responds_to?
             klass = T
             if klass.responds_to?(:{{name.id}})
               klass.{{name.id}}(self, {{block.args.splat}})
             else
-              raise Jennifer::BaseException.new("#{T} class has no {{name.id}} scope.")
+              raise ::Jennifer::BaseException.new("#{T} class has no {{name.id}} scope.")
             end
           end
         end
@@ -52,13 +52,13 @@ module Jennifer
       # ```
       macro scope(name, klass)
         # :nodoc:
-        class Jennifer::QueryBuilder::ModelQuery(T)
+        class ::Jennifer::QueryBuilder::ModelQuery(T)
           def {{name.id}}(*args)
             klass = T
             if klass.responds_to?(:{{name.id}})
               klass.{{name.id}}(self, *args)
             else
-              raise Jennifer::BaseException.new("#{T} class has no {{name.id}} scope.")
+              raise ::Jennifer::BaseException.new("#{T} class has no {{name.id}} scope.")
             end
           end
         end

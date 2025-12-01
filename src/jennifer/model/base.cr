@@ -14,6 +14,7 @@ require "./enum_converter"
 require "./json_converter"
 require "./json_serializable_converter"
 require "./time_zone_converter"
+require "./pg_enum_converter"
 require "./timestamp"
 require "./optimistic_locking"
 
@@ -723,7 +724,7 @@ module Jennifer
 
         # :nodoc:
         def self.superclass
-          {{@type.superclass}}
+          ::{{@type.superclass}}
         end
 
         macro finished

@@ -23,9 +23,9 @@ jobs:
 
     steps:
       - name: Install Crystal
-        uses: oprypin/install-crystal@v1
+        uses: crystal-lang/install-crystal@v1
         with:
-          crystal: 1.8.2
+          crystal: latest
 
       - name: Donwload sources
         uses: actions/checkout@v2
@@ -115,6 +115,12 @@ jobs:
             DB: mysql
             pair: true
             other: PAIR_DB_USER=dbuser PAIR_DB_PASSWORD=dbpassword
+          - crystal_version: 1.18.2
+            DB: mysql
+          - crystal_version: 1.18.2
+            DB: postgres
+            integration: true
+            linter: true
 
     runs-on: ${{ matrix.os || 'ubuntu-22.04' }}
 
@@ -129,7 +135,7 @@ jobs:
         run: export ${{ matrix.other }}
 
       - name: Install Crystal
-        uses: oprypin/install-crystal@v1
+        uses: crystal-lang/install-crystal@v1
         with:
           crystal: ${{matrix.crystal_version}}
 

@@ -28,7 +28,7 @@ require "./jennifer/view/base"
 require "./jennifer/migration/*"
 
 module Jennifer
-  VERSION = "0.13.0"
+  VERSION = "0.13.1"
 
   {% if Jennifer.constant("AFTER_LOAD_SCRIPT") == nil %}
     # :nodoc:
